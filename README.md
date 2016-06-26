@@ -38,7 +38,7 @@ Channels:
 <image src="http://lttng.org/images/docs26/concepts.png"></image>
 ```
 Tracing session session1: [inactive] //Session状态 active/inactive
-    Trace path: /home/colin/lttng-traces/session1-20160626-101443  //Log内容保存位置 <font color=#ff0000>可以是远程路径</font>
+    Trace path: /home/colin/lttng-traces/session1-20160626-101443  //Log内容保存位置
 
 === Domain: UST global === //Domain:Kernel/UST/Java/Log4J/Python
 
@@ -63,6 +63,9 @@ Channels: //Channel信息，允许有多个Channel
     Events: //在代码中体现为tracepoint
       * (type: tracepoint) [enabled]
 ```
+    
+Log内容保存位置 <font color=#ff0000>可以是远程路径</font>   
+    
 ##lttng相关库和应用
 ###LTTng-tools:
 session daemon (lttng-sessiond) //按照Session的配置，对Session管理，创建Socket去接收来自liblttng-ctl的控制信息  
