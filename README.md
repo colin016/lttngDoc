@@ -64,7 +64,7 @@ Channels: //Channel信息，允许有多个Channel
       * (type: tracepoint) [enabled]
 ```
     
-Log内容保存位置 <font color=#ff0000>可以是远程路径</font>   
+<font color=red>Log内容保存位置可以是远程路径</font>   
     
 ##lttng相关库和应用
 ###LTTng-tools:
