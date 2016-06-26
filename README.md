@@ -29,9 +29,10 @@ Channels:
     Events:
       * (type: tracepoint) [enabled]
 ```
-如上所列，用来保存一些信息的，用lttng之前首先要创建一个Session，例如：lttng -n create session		
-创建了Session后，需要做一些基础配置，例如：lttng enable-event -u -a		
-然后，用lttng list <sessionName> 就能看到上面的一些信息了。每个属性解析如下:		 
+如上所列，Session是用来保存一些信息的，跟浏览器Session类似  
+1.用lttng之前首先要创建一个Session，例如：lttng -n create session		
+2.创建了Session后，需要做一些基础配置，例如：lttng enable-event -u -a		
+3.然后，用lttng list <sessionName> 就能看到上面的一些信息了。每个属性解析如下:		 
 归属关系：Session <- Domain <- Channel <- Event		
 
 ```
@@ -50,7 +51,7 @@ Channels: //Channel信息，允许有多个Channel
       overwrite mode: 0 //当Buffer满的时候，对新的Log是采用Overwrite(檫除最旧的sub-subffer)/Discard(丢弃最新的)
       subbufers size: 131072 //Buffer被等分成若干个sub-buffer
       number of subbufers: 4 //sub-buffer数量
-      switch timer interval: 0 // 定时自动切换sub-buffuer: 时间到后，自动将下一个sub-buffer来接收新的log（即使旧sub-buffer未满）
+      switch timer interval: 0 // 定时自动切换sub-buf:时间到后，将下一个sub-buf来接收新的log（即使旧sub-buf未满）
       read timer interval: 0
       trace file count: 0
       trace file size (bytes): 0
