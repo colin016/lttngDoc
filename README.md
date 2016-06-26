@@ -147,9 +147,9 @@ TRACEPOINT_EVENT(
 >为了方便在其他项目可以使用，一般一个Provider独立在一个C和H里面，不跟具体用户代码交叉放一起
 >`tp.c`里面可以包含多个h文件    
 >`TP_ARGS`：具体根据用户在调tracepoint函数打印的时候传入的参数，在这里做相应的定义  
->`TP_FIELDS`：在这里定义的各个变量，在运行的时候会被操作，例如这个代码：    
+>`TP_FIELDS`：在这里定义的各个变量，在运行的时候会被操作，例如这个代码：   
+
 ```c
-/* for struct stat */
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
