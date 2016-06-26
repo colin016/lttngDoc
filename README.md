@@ -38,7 +38,7 @@ Channels:
 <image src="http://lttng.org/images/docs26/concepts.png"></image>
 ```
 Tracing session session1: [inactive] //Session状态 active/inactive
-    Trace path: /home/colin/lttng-traces/session1-20160626-101443  //Log内容保存位置 <font color="red">可以是远程路径</font>
+    Trace path: /home/colin/lttng-traces/session1-20160626-101443  //Log内容保存位置 <font color=red>可以是远程路径</font>
 
 === Domain: UST global === //Domain:Kernel/UST/Java/Log4J/Python
 
