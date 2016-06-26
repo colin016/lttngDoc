@@ -29,11 +29,12 @@ Channels:
     Events:
       * (type: tracepoint) [enabled]
 ```
-如上所列，Session和浏览器的Session类似，用来保存一些信息的，用lttng之前首先要创建一个Session，例如：lttng -n create session
-创建了Session后，需要做一些基础配置，例如：lttng enable-event -u -a
-然后，用lttng list <sessionName> 就能看到上面的一些信息了。每个属性解析如下：
-归属关系：Session <- Domain <- Channel <- Even
+如上所列，Session和浏览器的Session类似，用来保存一些信息的，用lttng之前首先要创建一个Session，例如：lttng -n create session		
+创建了Session后，需要做一些基础配置，例如：lttng enable-event -u -a		
+然后，用lttng list <sessionName> 就能看到上面的一些信息了。每个属性解析如下:		 
+归属关系：Session <- Domain <- Channel <- Event		
 
+```
 Tracing session session1: [inactive] //Session状态 active/inactive
     Trace path: /home/colin/lttng-traces/session1-20160626-101443  //Log内容保存位置
 
@@ -59,7 +60,7 @@ Channels: //Channel信息，允许有多个Channel
 
     Events: //在代码中体现为tracepoint
       * (type: tracepoint) [enabled]
-
+```
 ====================lttng相关库和应用=======================
 LTTng-tools:
 session daemon (lttng-sessiond) //按照Session的配置，对Session管理，创建Socket去接收来自liblttng-ctl的控制信息
