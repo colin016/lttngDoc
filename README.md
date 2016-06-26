@@ -241,6 +241,6 @@ int my_func(int a, const char* b)
 
 /* ... */
 ```
-Again, before including a given tracepoint provider header file, `TRACEPOINT_CREATE_PROBES` and `TRACEPOINT_DEFINE` must be defined in one, <font color=red>and only one</font>, translation unit. Other C source files of the same application may include tp.h to use tracepoints with the tracepoint() macro, but must not define `TRACEPOINT_CREATE_PROBES`/`TRACEPOINT_DEFINE` again.
-This translation unit may be built as an object file by making sure to add . to the include path:
+Again, before including a given tracepoint provider header file, `TRACEPOINT_CREATE_PROBES` and `TRACEPOINT_DEFINE` must be defined in one, <style="color:red">and only one</style>, translation unit. Other C source files of the same application may include tp.h to use tracepoints with the tracepoint() macro, but must not define `TRACEPOINT_CREATE_PROBES`/`TRACEPOINT_DEFINE` again.
+This translation unit may be built as an object file by making sure to add . to the include path:   
 `gcc -c -I. file.c`
