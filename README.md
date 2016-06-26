@@ -241,6 +241,34 @@ int my_func(int a, const char* b)
 
 /* ... */
 ```
-Again, before including a given tracepoint provider header file, `TRACEPOINT_CREATE_PROBES` and `TRACEPOINT_DEFINE` must be defined in one, <style="color:red">and only one</style>, translation unit. Other C source files of the same application may include tp.h to use tracepoints with the tracepoint() macro, but must not define `TRACEPOINT_CREATE_PROBES`/`TRACEPOINT_DEFINE` again.
+Again, before including a given tracepoint provider header file, `TRACEPOINT_CREATE_PROBES` and `TRACEPOINT_DEFINE` must be defined in one, **and only one**, translation unit. Other C source files of the same application may include tp.h to use tracepoints with the tracepoint() macro, but must not define `TRACEPOINT_CREATE_PROBES`/`TRACEPOINT_DEFINE` again.
 This translation unit may be built as an object file by making sure to add . to the include path:   
-`gcc -c -I. file.c`
+`gcc -c -I. file.c` 
+The second approach is to isolate the tracepoint provider code into a separate object file by using a dedicated C source file to create probes:   
+```
+#define TRACEPOINT_CREATE_PROBES
+
+#include "tp.h"
+```
+`TRACEPOINT_DEFINE` must be defined by a translation unit of the application. Since we're talking about static linking here, it could as well be defined directly in the file above, before `#include "tp.h"`:   
+```
+#define TRACEPOINT_CREATE_PROBES
+#define TRACEPOINT_DEFINE
+
+#include "tp.h"
+```
+This is actually what lttng-gen-tp does, and is the recommended practice.   
+Build the tracepoint provider:  
+`gcc -c -I. tp.c`   
+Finally, the resulting object file may be archived to create a more portable tracepoint provider static library:    
+`ar rc tp.a tp.o`   
+Using a static library does have the advantage of centralising the tracepoint providers objects so they can be shared between multiple applications. This way, when the tracepoint provider is modified, the source code changes don't have to be patched into each application's source code tree. The applications need to be relinked after each change, but need not to be otherwise recompiled (unless the tracepoint provider's API changes).  
+Regardless of which method you choose, you end up with an object file (potentially archived) containing the trace providers assembled code. To link this code with the rest of your application, you must also link with liblttng-ust and libdl:    
+`gcc -o app tp.o other.o files.o of.o your.o app.o -llttng-ust -ldl`    
+or  
+`gcc -o app tp.a other.o files.o of.o your.o app.o -llttng-ust -ldl`    
+If you're using a BSD system, replace -ldl with -lc:    
+`gcc -o app tp.a other.o files.o of.o your.o app.o -llttng-ust -lc` 
+The application can be started as usual, for example:   
+`./app`
+
