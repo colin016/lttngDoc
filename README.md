@@ -203,3 +203,40 @@ size_field                  0x12d
 size_dbl_field              301.0
 half_my_str_arg_field       "Hello,"
 ```
+
+##编译链接lttng和用户代码
+###定义宏：
+两个必须定义的宏：`TRACEPOINT_CREATE_PROBES`和`TRACEPOINT_DEFINE`   
+`TRACEPOINT_CREATE_PROBES`：在Tracepoint Provider的C文件里面定义，令我们在H文件里面定义的TRACEPOINT_EVENT生效   
+`TRACEPOINT_DEFINE`：调用`tracepoint()`的c文件中定义该宏    
+>As discussed above, the macros used by the user-written tracepoint provider header file are useless until actually used to create probes code (global data structures and functions) in a translation unit (C source file). This is accomplished by defining `TRACEPOINT_CREATE_PROBES` in a translation unit and then including the tracepoint provider header file. When `TRACEPOINT_CREATE_PROBES` is defined, macros used and included by the tracepoint provider header produce actual source code needed by any application using the defined tracepoints. Defining `TRACEPOINT_CREATE_PROBES` produces code used when registering tracepoint providers when the tracepoint provider package loads.
+The other important definition is `TRACEPOINT_DEFINE`. This one creates global, per-tracepoint structures referencing the tracepoint providers data. Those structures are required by the actual functions inserted where `tracepoint()` macros are placed and need to be defined by the instrumented application.
+>
+###静态链接：
+With the static linking method, compiled tracepoint providers are copied into the target application. There are three ways to do this:    
+1.Use one of your existing C source files to create probes.
+2.Create probes in a separate C source file and build it as an object file to be linked with the application (more decoupled).
+3.Create probes in a separate C source file, build it as an object file and archive it to create a static library (more decoupled, more portable).  
+The first approach is to define `TRACEPOINT_CREATE_PROBES` and include your tracepoint provider(s) header file(s) directly into an existing C source file. Here's an example:
+```c
+#include <stdlib.h>
+#include <stdio.h>
+/* ... */
+
+#define TRACEPOINT_CREATE_PROBES
+#define TRACEPOINT_DEFINE
+#include "tp.h"
+
+/* ... */
+
+int my_func(int a, const char* b)
+{
+    /* ... */
+
+    tracepoint(my_provider, my_tracepoint, buf, sz, limit, &tt)
+
+    /* ... */
+}
+
+/* ... */
+```
