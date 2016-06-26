@@ -35,9 +35,10 @@ Channels:
 3.然后，用lttng list <sessionName> 就能看到上面的一些信息了。每个属性解析如下:		 
 归属关系：Session <- Domain <- Channel <- Event		
 
+<image src="http://lttng.org/images/docs26/concepts.png"></image>
 ```
 Tracing session session1: [inactive] //Session状态 active/inactive
-    Trace path: /home/colin/lttng-traces/session1-20160626-101443  //Log内容保存位置
+    Trace path: /home/colin/lttng-traces/session1-20160626-101443  //Log内容保存位置 <font color="red">可以是远程路径</font>
 
 === Domain: UST global === //Domain:Kernel/UST/Java/Log4J/Python
 
@@ -70,6 +71,8 @@ relay daemon (lttng-relayd)
 tracing control library (liblttng-ctl) //通过Socket给lttng-sessiond对Session进行配置    
 tracing control command line tool (lttng) //lttng-ctl的命令行实现
 
+<image src="http://lttng.org/images/docs27/plumbing-27.png"></image>
+
 ###LTTng-UST:
 user space tracing library (liblttng-ust) and its headers      
 preloadable user space tracing helpers: 
@@ -86,4 +89,5 @@ tracepoint providers (liblttng-ust-jul-jni and liblttng-ust-log4j-jni) and JAR f
 LTTng Linux kernel tracer module    
 tracing ring buffer kernel modules  
 many LTTng probe kernel modules 
+
 
