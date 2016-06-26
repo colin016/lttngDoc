@@ -275,9 +275,11 @@ The application can be started as usual, for example:
 ###动态链接
 The second approach to package the tracepoint providers is to use dynamic linking: the library and its member functions are explicitly sought, loaded and unloaded at runtime using `libdl`.    
 It has to be noted that, for a variety of reasons, the created shared library is be dynamically loaded, as opposed to dynamically linked. The tracepoint provider shared object is, however, linked with `liblttng-ust`, so that `liblttng-ust` is guaranteed to be loaded as soon as the tracepoint provider is. If the tracepoint provider is not loaded, since the application itself is not linked with liblttng-ust, the latter is not loaded at all and the tracepoint calls become inert.
-The process to create the tracepoint provider shared object is pretty much the same as the static library method, except that:  
--**since the tracepoint provider is not part of the application anymore, `TRACEPOINT_DEFINE` must be defined, for each tracepoint provider, in exactly one translation unit (C source file) of the application;**   
--**`TRACEPOINT_PROBE_DYNAMIC_LINKAGE` must be defined next to `TRACEPOINT_DEFINE`.**    
+The process to create the tracepoint provider shared object is pretty much the same as the static library method, except that:     
+    
+-since the tracepoint provider is not part of the application anymore, `TRACEPOINT_DEFINE` must be defined, for each tracepoint provider, in exactly one translation unit (C source file) of the application;      
+-`TRACEPOINT_PROBE_DYNAMIC_LINKAGE` must be defined next to `TRACEPOINT_DEFINE`.    
+
 Regarding `TRACEPOINT_DEFINE` and `TRACEPOINT_PROBE_DYNAMIC_LINKAGE`, the recommended practice is to use a separate C source file in your application to define them, then include the tracepoint provider header files afterwards. For example: 
 ```
 #define TRACEPOINT_DEFINE
