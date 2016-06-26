@@ -292,10 +292,10 @@ Regarding `TRACEPOINT_DEFINE` and `TRACEPOINT_PROBE_DYNAMIC_LINKAGE`, the recomm
 ```
 `TRACEPOINT_PROBE_DYNAMIC_LINKAGE` makes the macros included afterwards (by including the tracepoint provider header, which itself includes LTTng-UST headers) aware that the tracepoint provider is to be loaded dynamically and not part of the application's executable.   
 The tracepoint provider object file used to create the shared library is built like it is using the static library method, only with the -fpic option added:   
-`gcc -c -fpic -I. tp.c` 
+`gcc -c -fpic -I. tp.c`     
 It is then linked as a shared library like this:    
 `gcc -shared -Wl,--no-as-needed -o tp.so -llttng-ust tp.o`  
 As previously stated, this tracepoint provider shared object isn't linked with the user application: it's loaded manually. This is why the application is built with no mention of this tracepoint provider, but still needs `libdl`:    
-`gcc -o app other.o files.o of.o your.o app.o -ldl` 
+`gcc -o app other.o files.o of.o your.o app.o -ldl`      
 Now, to make LTTng-UST tracing available to the application, the `LD_PRELOAD` environment variable is used to preload the tracepoint provider shared library before the application actually starts:  
 `LD_PRELOAD=/path/to/tp.so ./app`
