@@ -216,7 +216,7 @@ The other important definition is `TRACEPOINT_DEFINE`. This one creates global, 
 ###静态链接：
 With the static linking method, compiled tracepoint providers are copied into the target application. There are three ways to do this:    
 1.Use one of your existing C source files to create probes. 
-2.Create probes in a separate C source file and build it as an object file to be linked with the application (more decoupled).  
+2.Create probes in a separate C source file and build it as an object file to be linked with the application (more decoupled).     
 3.Create probes in a separate C source file, build it as an object file and archive it to create a static library (more decoupled, more portable).    
 The first approach is to define `TRACEPOINT_CREATE_PROBES` and include your tracepoint provider(s) header file(s) directly into an existing C source file. Here's an example:  
 ```c
