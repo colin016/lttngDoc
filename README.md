@@ -207,7 +207,7 @@ half_my_str_arg_field       "Hello,"
 ##编译链接lttng和用户代码
 ###定义宏：
 两个必须定义的宏：`TRACEPOINT_CREATE_PROBES`和`TRACEPOINT_DEFINE`   
-`TRACEPOINT_CREATE_PROBES`：在Tracepoint Provider的C文件里面定义，令我们在H文件里面定义的TRACEPOINT_EVENT生效   
+`TRACEPOINT_CREATE_PROBES`：在Tracepoint Provider的C文件里面定义，在H文件里面定义的TRACEPOINT_EVENT才生效   
 `TRACEPOINT_DEFINE`：调用`tracepoint()`的c文件中定义该宏  
     
 As discussed above, the macros used by the user-written tracepoint provider header file are useless until actually used to create probes code (global data structures and functions) in a translation unit (C source file). This is accomplished by defining `TRACEPOINT_CREATE_PROBES` in a translation unit and then including the tracepoint provider header file. When `TRACEPOINT_CREATE_PROBES` is defined, macros used and included by the tracepoint provider header produce actual source code needed by any application using the defined tracepoints. Defining `TRACEPOINT_CREATE_PROBES` produces code used when registering tracepoint providers when the tracepoint provider package loads.
@@ -215,10 +215,10 @@ The other important definition is `TRACEPOINT_DEFINE`. This one creates global, 
     
 ###静态链接：
 With the static linking method, compiled tracepoint providers are copied into the target application. There are three ways to do this:    
-1.Use one of your existing C source files to create probes.
-2.Create probes in a separate C source file and build it as an object file to be linked with the application (more decoupled).
-3.Create probes in a separate C source file, build it as an object file and archive it to create a static library (more decoupled, more portable).  
-The first approach is to define `TRACEPOINT_CREATE_PROBES` and include your tracepoint provider(s) header file(s) directly into an existing C source file. Here's an example:
+1.Use one of your existing C source files to create probes. 
+2.Create probes in a separate C source file and build it as an object file to be linked with the application (more decoupled).  
+3.Create probes in a separate C source file, build it as an object file and archive it to create a static library (more decoupled, more portable).    
+The first approach is to define `TRACEPOINT_CREATE_PROBES` and include your tracepoint provider(s) header file(s) directly into an existing C source file. Here's an example:  
 ```c
 #include <stdlib.h>
 #include <stdio.h>
@@ -241,3 +241,6 @@ int my_func(int a, const char* b)
 
 /* ... */
 ```
+Again, before including a given tracepoint provider header file, `TRACEPOINT_CREATE_PROBES` and `TRACEPOINT_DEFINE` must be defined in one, <font color=red>and only one</font>, translation unit. Other C source files of the same application may include tp.h to use tracepoints with the tracepoint() macro, but must not define `TRACEPOINT_CREATE_PROBES`/`TRACEPOINT_DEFINE` again.
+This translation unit may be built as an object file by making sure to add . to the include path:
+`gcc -c -I. file.c`
