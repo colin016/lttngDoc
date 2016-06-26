@@ -1,33 +1,34 @@
 # lttngDoc
 
 ##lttng基础概念
->colin@colin-virtual-machine:~/lttng/lttng-ust-master/doc/examples/demo$ lttng list session1
->Tracing session session1: [inactive]
->    Trace path: /home/colin/lttng-traces/session1-20160626-101443
->
->=== Domain: UST global ===
->
->Buffer type: per UID
->
->Channels:
->-------------
->- channel0: [enabled]
->
->    Attributes:
->      overwrite mode: 0
->      subbufers size: 131072
->      number of subbufers: 4
->      switch timer interval: 0
->      read timer interval: 0
->      trace file count: 0
->      trace file size (bytes): 0
->      discarded events: 0
->      lost packets: 0
->      output: mmap()
->
->    Events:
->      * (type: tracepoint) [enabled]
-  
+```
+colin@colin-virtual-machine:~/lttng/lttng-ust-master/doc/examples/demo$ lttng list session1
+Tracing session session1: [inactive]
+    Trace path: /home/colin/lttng-traces/session1-20160626-101443
+
+    Domain: UST global ===
+
+Buffer type: per UID
+
+Channels:
+-------------
+- channel0: [enabled]
+
+    Attributes:
+      overwrite mode: 0
+      subbufers size: 131072
+      number of subbufers: 4
+      switch timer interval: 0
+      read timer interval: 0
+      trace file count: 0
+      trace file size (bytes): 0
+      discarded events: 0
+      lost packets: 0
+      output: mmap()
+
+    Events:
+      * (type: tracepoint) [enabled]
+```
 如上所列，Session和浏览器的Session类似，用来保存一些信息的，用lttng之前首先要创建一个Session，例如：lttng -n create session
 创建了Session后，需要做一些基础配置，例如：lttng enable-event -u -a
 然后，用lttng list <sessionName> 就能看到上面的一些信息了。每个属性解析如下：
